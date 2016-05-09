@@ -7,10 +7,9 @@
 #include "Tank.h"
 
 using namespace std;
-
 #pragma comment (lib, "Ws2_32.lib")
 
-#define DEFAULT_BUFLEN 512            
+#define DEFAULT_BUFLEN 1024            
 #define IP_ADDRESS "127.0.0.1"
 #define DEFAULT_PORT "2556"
 #define KEY_UP 72
@@ -25,8 +24,7 @@ struct client_type
 	char received_message[DEFAULT_BUFLEN];
 };
 
-int process_client(client_type &new_client);
-int main();
+Tank tanks[2] = { Tank(0, 0), Tank(500, 500) };
 
 int process_client(client_type &new_client)
 {
@@ -37,9 +35,32 @@ int process_client(client_type &new_client)
 		if (new_client.socket != 0)
 		{
 			int iResult = recv(new_client.socket, new_client.received_message, DEFAULT_BUFLEN, 0);
+			
 
 			if (iResult != SOCKET_ERROR)
+			{
+
 				cout << new_client.received_message << endl;
+				if (new_client.received_message[0] == 'g')
+				{
+					tanks[(int)new_client.received_message[3]].setY(tanks[new_client.received_message[3]].getY() - 5);
+				}
+				else if (new_client.received_message[0] == 'd')
+				{
+					tanks[(int)new_client.received_message[3]].setY(tanks[new_client.received_message[3]].getY() + 5);
+				}
+				else if (new_client.received_message[0] == 'l')
+				{
+					tanks[(int)new_client.received_message[3]].setX(tanks[new_client.received_message[3]].getX() - 5);
+				}
+				else if (new_client.received_message[0] == 'p')
+				{
+					tanks[(int)new_client.received_message[3]].setX(tanks[new_client.received_message[3]].getX() + 5);
+				}
+
+				cout << tanks[(int)new_client.received_message[3]].getX() << " " << tanks[(int)new_client.received_message[3]].getY() << endl;
+				//funckja odswiezania gui
+			}
 			else
 			{
 				cout << "recv() failed: " << WSAGetLastError() << endl;
@@ -62,10 +83,9 @@ int main()
 	client_type client = { INVALID_SOCKET, -1, "" };
 	int iResult = 0;
 	string message;
-	Tank GreenTank = Tank(0, 0);//nasz tank
-	Tank RedTank = Tank(500, 500);
-	Tank BlueTank = Tank(500, 0);
-	Tank YellowTank = Tank(0, 500);
+
+	
+
 
 	cout << "Starting Client...\n";
 
@@ -138,11 +158,12 @@ int main()
 
 		while (1)
 		{
-			
+
 			//key event bedzie przetwarzany na serwerze
 			int c = _getch();
 			sent_message = to_string(c);
 			iResult = send(client.socket, sent_message.c_str(), strlen(sent_message.c_str()), 0);
+
 
 			if (iResult <= 0)
 			{

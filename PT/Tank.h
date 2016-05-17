@@ -6,9 +6,10 @@ class Tank
 private:
 	int x;
 	int y;
+	bool whichClient;
 
 public:
-	Tank(int x1,int y2);
+	Tank(int x1, int y2);
 	int getX();
 	void setX(int x2);
 	int getY();
@@ -16,6 +17,3 @@ public:
 
 };
 #endif
-
-
-

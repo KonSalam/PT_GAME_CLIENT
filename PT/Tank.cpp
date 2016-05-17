@@ -5,6 +5,7 @@ Tank::Tank(int x1, int y1)
 {
 	x = x1;
 	y = y1;
+	whichClient = false;
 }
 
 void Tank::setX(int x2)
@@ -42,4 +43,3 @@ int Tank::getY()
 {
 	return y;
 }
-

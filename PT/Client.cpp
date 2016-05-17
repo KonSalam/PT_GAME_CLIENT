@@ -3,6 +3,13 @@ using namespace std;
 
 int process_client(client_type &new_client);
 
+Client::Client()
+{
+	Tank tanks[MAX_CLIENTS] = {Tank(0,0),Tank(0,500),Tank(500,0),Tank(500,500)};
+	sent_message = "";
+	iResult = 0;
+}
+
 int Client::init()
 {
 	cout << "Starting Client...\n";

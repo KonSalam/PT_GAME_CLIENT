@@ -28,14 +28,17 @@ class Client
 private:
 	WSAData wsa_data;
 	struct addrinfo *result = NULL, *ptr = NULL, hints;
-	string sent_message = "";
+	string sent_message;
 	client_type client;
-	int iResult = 0;
+	int iResult;
 	string message;
+	Tank tanks[MAX_CLIENTS];
 
+private:
 	int run();
 
 public:
+	Client();
 	int init();
 	int connecting();
 

@@ -39,6 +39,11 @@ void Tank::setY(int y2)
 	}
 }
 
+void Tank::setPlay()
+{
+	whichClient = true;
+}
+
 int Tank::getX()
 {
 	return x;
@@ -47,4 +52,9 @@ int Tank::getX()
 int Tank::getY()
 {
 	return y;
+}
+
+bool Tank::getPlay()
+{
+	return whichClient;
 }

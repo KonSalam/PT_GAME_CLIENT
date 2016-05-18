@@ -8,5 +8,6 @@ int main()
 	client.init();
 	client.connecting();
 
+	system("pause");
 	return 0;
 }

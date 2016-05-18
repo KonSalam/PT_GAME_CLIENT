@@ -15,6 +15,8 @@ public:
 	void setX(int x2);
 	int getY();
 	void setY(int y2);
+	bool getPlay();
+	void setPlay();
 
 };
 #endif

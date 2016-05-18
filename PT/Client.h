@@ -7,6 +7,7 @@
 #include <string>
 #include <thread>
 #include <conio.h>
+#include <Windows.h>
 #include "Tank.h"
 
 using namespace std;
@@ -15,6 +16,11 @@ using namespace std;
 #define IP_ADDRESS "127.0.0.1"
 #define DEFAULT_PORT "2556"
 const int MAX_CLIENTS = 4;
+
+#define KB_UP 72
+#define KB_DOWN 80
+#define KB_LEFT 75
+#define KB_RIGHT 77
 
 struct client_type
 {

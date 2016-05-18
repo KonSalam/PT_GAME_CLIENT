@@ -5,7 +5,7 @@ int process_client(client_type &new_client);
 
 Client::Client()
 {
-	Tank tanks[MAX_CLIENTS] = {Tank(0,0),Tank(0,500),Tank(500,0),Tank(500,500)};
+	Tank tanks[MAX_CLIENTS] = { Tank(0, 0), Tank(0, 500), Tank(500, 0), Tank(500, 500) };
 	sent_message = "";
 	iResult = 0;
 }
@@ -73,6 +73,12 @@ int Client::connecting()
 	//Obtain id from server for this client;
 	recv(client.socket, client.received_message, DEFAULT_BUFLEN, 0);
 	message = client.received_message;
+
+	//set player play
+	int id = atoi(client.received_message);
+	tanks[id].setPlay();
+	cout << id << " " << tanks[id].getX() << tanks[id].getPlay() << endl;
+
 	run();
 }
 
@@ -86,14 +92,22 @@ int Client::run()
 
 		while (1)
 		{
-			//key event bedzie przetwarzany na serwerze
-			int c = _getch();
-			sent_message = to_string(c);
-			if (c != 224)
-			{
-				cout << sent_message << endl;
-				iResult = send(client.socket, sent_message.c_str(), strlen(sent_message.c_str()), 0);
-			}
+			int a = _getch();
+			if (a == 0 || a == 0xE0) a = _getch();
+
+			if (a == 27) 
+				break;
+			else if (a == 72)
+				sent_message = to_string(a);
+			else if (a == 80)
+				sent_message = to_string(a);
+			else if (a == 75)
+				sent_message = to_string(a);
+			else if (a == 77)
+				sent_message = to_string(a);
+
+			iResult = send(client.socket, sent_message.c_str(), strlen(sent_message.c_str()), 0);
+
 
 			if (iResult <= 0)
 			{

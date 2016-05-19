@@ -1,7 +1,7 @@
 #include "Client.h"
 using namespace std;
 
-int process_client(client_type &new_client);
+int process_client(client_type &new_client,Tank tanks[]);
 
 Client::Client()
 {
@@ -87,7 +87,7 @@ int Client::run()
 	if (message != "Server is full")
 	{
 		client.id = atoi(client.received_message);
-		thread my_thread(process_client, client);
+		thread my_thread(process_client, client,tanks);
 		Tank tanks[MAX_CLIENTS] = { Tank(0, 0), Tank(0, 500), Tank(500, 0), Tank(500, 500) };
 
 		while (1)
@@ -95,9 +95,7 @@ int Client::run()
 			int a = _getch();
 			if (a == 0 || a == 0xE0) a = _getch();
 
-			if (a == 27) 
-				break;
-			else if (a == 72)
+			if (a == 72)
 				sent_message = to_string(a);
 			else if (a == 80)
 				sent_message = to_string(a);
@@ -107,7 +105,6 @@ int Client::run()
 				sent_message = to_string(a);
 
 			iResult = send(client.socket, sent_message.c_str(), strlen(sent_message.c_str()), 0);
-
 
 			if (iResult <= 0)
 			{
@@ -131,45 +128,35 @@ int Client::run()
 		system("pause");
 		return 1;
 	}
-
 	closesocket(client.socket);
 	WSACleanup();
 }
+void setTanks(string msg, Tank tanks[])
+{
+	std::stringstream stream(msg);	
+	int p, x, y;
+	stream >> p >> x >> y;
+	cout << p << " " << x << " " << y << endl;
 
-int process_client(client_type &new_client)
+	tanks[p].setX(x);
+	tanks[p].setY(y);
+	cout << p << " " << tanks[p].getX() << " " << tanks[p].getY() << "+"<< endl;
+	//odswiezanie GUI (java)
+	
+}
+int process_client(client_type &new_client,Tank tanks[])
 {
 	while (1)
 	{
 		memset(new_client.received_message, 0, DEFAULT_BUFLEN);
-
 		if (new_client.socket != 0)
 		{
 			int iResult = recv(new_client.socket, new_client.received_message, DEFAULT_BUFLEN, 0);
-
-
 			if (iResult != SOCKET_ERROR)
 			{
-
-				cout << new_client.received_message << endl;
-				if (new_client.received_message[0] == 'g')
-				{
-					//tanks[(int)new_client.received_message[3]].setY(tanks[new_client.received_message[3]].getY() - 5);
-				}
-				else if (new_client.received_message[0] == 'd')
-				{
-					//tanks[(int)new_client.received_message[3]].setY(tanks[new_client.received_message[3]].getY() + 5);
-				}
-				else if (new_client.received_message[0] == 'l')
-				{
-					//tanks[(int)new_client.received_message[3]].setX(tanks[new_client.received_message[3]].getX() - 5);
-				}
-				else if (new_client.received_message[0] == 'p')
-				{
-					//tanks[(int)new_client.received_message[3]].setX(tanks[new_client.received_message[3]].getX() + 5);
-				}
-
-				//cout << tanks[(int)new_client.received_message[3]].getX() << " " << tanks[(int)new_client.received_message[3]].getY() << endl;
-				//funckja odswiezania gui
+				cout << new_client.received_message<<"+" << endl;
+				setTanks(new_client.received_message,tanks);
+				cout << endl;
 			}
 			else
 			{
@@ -181,6 +168,5 @@ int process_client(client_type &new_client)
 
 	if (WSAGetLastError() == WSAECONNRESET)
 		cout << "The server has disconnected" << endl;
-
 	return 0;
 }

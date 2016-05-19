@@ -8,6 +8,7 @@
 #include <thread>
 #include <conio.h>
 #include <Windows.h>
+#include <sstream>
 #include "Tank.h"
 
 using namespace std;
@@ -47,6 +48,5 @@ public:
 	Client();
 	int init();
 	int connecting();
-
 };
 #endif

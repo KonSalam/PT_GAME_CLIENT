@@ -3,7 +3,6 @@
 
 Tank::Tank()
 {
-
 }
 
 Tank::Tank(int x1, int y1)

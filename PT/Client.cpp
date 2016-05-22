@@ -84,6 +84,7 @@ int Client::connecting()
 
 int Client::run()
 {
+	bool czySend = false;
 	if (message != "Server is full")
 	{
 		client.id = atoi(client.received_message);
@@ -103,14 +104,19 @@ int Client::run()
 				sent_message = to_string(a);
 			else if (a == 77)
 				sent_message = to_string(a);
+			else
+				czySend = false;
 
-			iResult = send(client.socket, sent_message.c_str(), strlen(sent_message.c_str()), 0);
-
-			if (iResult <= 0)
+			if (czySend == true)
 			{
-				cout << "send() failed: " << WSAGetLastError() << endl;
-				break;
+				iResult = send(client.socket, sent_message.c_str(), strlen(sent_message.c_str()), 0);
+				if (iResult <= 0)
+				{
+					cout << "send() failed: " << WSAGetLastError() << endl;
+					break;
+				}
 			}
+			czySend = true;
 		}
 
 		//Shutdown the connection since no more data will be sent

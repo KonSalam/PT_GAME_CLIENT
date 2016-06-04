@@ -6,7 +6,9 @@ class Tank
 private:
 	int x;
 	int y;
+	int life;
 	bool whichClient;
+
 
 public:
 	Tank();

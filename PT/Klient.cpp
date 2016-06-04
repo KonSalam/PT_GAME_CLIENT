@@ -2,12 +2,11 @@
 #include "Client.h"
 using namespace std;
 
-int main()
+int main(int argc, char *args[])
 {
 	Client client;
 	client.init();
-	client.connecting();
-
+	client.connecting();	
 	system("pause");
 	return 0;
 }

@@ -1,11 +1,16 @@
 #include "Client.h"
 using namespace std;
 
-int process_client(client_type &new_client,Tank tanks[]);
+int process_client(client_type &new_client,Tank tanks[],Graphic graphic);
+void updateGraphic(Graphic graphic, Tank tanks[4]);
 
 Client::Client()
 {
-	Tank tanks[MAX_CLIENTS] = { Tank(0, 0), Tank(0, 500), Tank(500, 0), Tank(500, 500) };
+	tanks[0] = Tank(0, 0);
+	tanks[1] = Tank(0, 500);
+	tanks[2] = Tank(500, 0);
+	tanks[3] = Tank(500, 500);
+
 	sent_message = "";
 	iResult = 0;
 }
@@ -26,6 +31,8 @@ int Client::init()
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
+
+	// Initialize SDL Graphic
 }
 
 int Client::connecting()
@@ -77,20 +84,22 @@ int Client::connecting()
 	//set player play
 	int id = atoi(client.received_message);
 	tanks[id].setPlay();
-	cout << id << " " << tanks[id].getX() << tanks[id].getPlay() << endl;
-
+	cout << "Player #" << id << " connected\n\n";
 	run();
 }
 
 int Client::run()
 {
+	graphic.init();
+	graphic.loadMedia();
+
+
 	bool czySend = false;
 	if (message != "Server is full")
 	{
 		client.id = atoi(client.received_message);
-		thread my_thread(process_client, client,tanks);
-		Tank tanks[MAX_CLIENTS] = { Tank(0, 0), Tank(0, 500), Tank(500, 0), Tank(500, 500) };
-
+		thread my_thread(process_client,client,tanks,graphic);
+		
 		while (1)
 		{
 			int a = _getch();
@@ -137,20 +146,36 @@ int Client::run()
 	closesocket(client.socket);
 	WSACleanup();
 }
-void setTanks(string msg, Tank tanks[])
+void setTanks(string msg, Tank tanks[],Graphic graphic)
 {
 	std::stringstream stream(msg);	
 	int p, x, y;
 	stream >> p >> x >> y;
-	cout << p << " " << x << " " << y << endl;
 
 	tanks[p].setX(x);
 	tanks[p].setY(y);
-	cout << p << " " << tanks[p].getX() << " " << tanks[p].getY() << "+"<< endl;
-	//odswiezanie GUI (java)
-	
+	cout << "Player #"<<p << " | " << tanks[p].getX() << " " << tanks[p].getY() << endl;
+	updateGraphic(graphic, tanks);
 }
-int process_client(client_type &new_client,Tank tanks[])
+
+void updateGraphic(Graphic graphic, Tank tanks[4])
+{
+	int dTank[8];
+	dTank[0] = tanks[0].getX();
+	dTank[1] = tanks[0].getY();
+
+	dTank[2] = tanks[1].getX();
+	dTank[3] = tanks[1].getY();
+
+	dTank[4] = tanks[2].getX();
+	dTank[5] = tanks[2].getY();
+
+	dTank[6] = tanks[3].getX();
+	dTank[7] = tanks[3].getY();
+	graphic.update(dTank);
+}
+
+int process_client(client_type &new_client,Tank tanks[],Graphic graphic)
 {
 	while (1)
 	{
@@ -160,8 +185,7 @@ int process_client(client_type &new_client,Tank tanks[])
 			int iResult = recv(new_client.socket, new_client.received_message, DEFAULT_BUFLEN, 0);
 			if (iResult != SOCKET_ERROR)
 			{
-				cout << new_client.received_message<<"+" << endl;
-				setTanks(new_client.received_message,tanks);
+				setTanks(new_client.received_message,tanks,graphic);
 				cout << endl;
 			}
 			else

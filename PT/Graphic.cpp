@@ -3,7 +3,7 @@
 
 bool Graphic::init() {
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) 
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		cout << "SDL could not initialize! SDL_Error:" << SDL_GetError() << endl;
 		return false;
@@ -22,33 +22,28 @@ bool Graphic::init() {
 		}
 	}
 }
+
 bool Graphic::loadMedia() {
-	gHelloWorld = SDL_LoadBMP("graphic/tankRed.bmp");
 	gTank[0] = SDL_LoadBMP("graphic/tankRed.bmp");
 	gTank[1] = SDL_LoadBMP("graphic/tankGreen.bmp");
 	gTank[2] = SDL_LoadBMP("graphic/tankBlue.bmp");
 	gTank[3] = SDL_LoadBMP("graphic/tankYellow.bmp");
-	dTank[0] = { 0,0,0,0 };
-	dTank[1] = { 0,500,0,0 };
-	dTank[2] = { 500,0,0,0 };
-	dTank[3] = { 500,500,0,0 };
+	dTank[0] = { 0, 0, 0, 0 };
+	dTank[1] = { 0, 500, 0, 0 };
+	dTank[2] = { 500, 0, 0, 0 };
+	dTank[3] = { 500, 500, 0, 0 };
+
 	for (int i = 0; i < 4; i++) {
 		SDL_BlitSurface(gTank[i], NULL, gScreenSurface, &dTank[i]);
 	}
 	SDL_UpdateWindowSurface(gWindow);
 	return true;
 }
-void Graphic::close() {
-	SDL_FreeSurface(gHelloWorld);
-	gHelloWorld = NULL;
 
+void Graphic::close() {
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
-
 	SDL_Quit();
-}
-void Graphic::run() {
-	SDL_UpdateWindowSurface(gWindow);	
 }
 
 void Graphic::update(int d[]) {
@@ -57,10 +52,10 @@ void Graphic::update(int d[]) {
 
 	dTank[1].x = d[2];
 	dTank[1].y = d[3];
-	
+
 	dTank[2].x = d[4];
 	dTank[2].y = d[5];
-	
+
 	dTank[3].x = d[6];
 	dTank[3].y = d[7];
 	SDL_FillRect(gScreenSurface, NULL, 0x000000);

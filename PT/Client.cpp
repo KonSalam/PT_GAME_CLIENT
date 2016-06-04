@@ -10,7 +10,6 @@ Client::Client()
 	tanks[1] = Tank(0, 500);
 	tanks[2] = Tank(500, 0);
 	tanks[3] = Tank(500, 500);
-
 	sent_message = "";
 	iResult = 0;
 }
@@ -20,7 +19,6 @@ int Client::init()
 	cout << "Starting Client...\n";
 	client = { INVALID_SOCKET, -1, "" };
 
-	// Initialize Winsock
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsa_data);
 	if (iResult != 0) {
 		cout << "WSAStartup() failed with error: " << iResult << endl;
@@ -31,8 +29,6 @@ int Client::init()
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
-
-	// Initialize SDL Graphic
 }
 
 int Client::connecting()
@@ -92,9 +88,8 @@ int Client::run()
 {
 	graphic.init();
 	graphic.loadMedia();
-
-
 	bool czySend = false;
+
 	if (message != "Server is full")
 	{
 		client.id = atoi(client.received_message);
@@ -146,6 +141,7 @@ int Client::run()
 	closesocket(client.socket);
 	WSACleanup();
 }
+
 void setTanks(string msg, Tank tanks[],Graphic graphic)
 {
 	std::stringstream stream(msg);	

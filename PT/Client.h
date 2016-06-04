@@ -30,16 +30,15 @@ class Client
 {
 private:
 	WSAData wsa_data;
-	struct addrinfo *result = NULL, *ptr = NULL, hints;
-	string sent_message;
 	client_type client;
-	int iResult;
-	string message;
 	Graphic graphic;
 	Tank tanks[MAX_CLIENTS];
-
-private:
+	string sent_message;
+	string message;
+	struct addrinfo *result = NULL, *ptr = NULL, hints;
+	int iResult;
 	int run();
+
 
 public:
 	Client();

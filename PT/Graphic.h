@@ -9,16 +9,16 @@
 
 using namespace std;
 class Graphic {
-	public: 
-	 SDL_Window* gWindow = NULL;
-	 SDL_Surface* gScreenSurface = NULL;
-	 SDL_Surface* gHelloWorld = NULL;	
-	 SDL_Surface* gTank[4];
-	 SDL_Rect dTank[4];
-	 bool init();
-	 bool loadMedia();
-	 void update(int d[]);
-	 void close();
-	 void run();
+private:
+	SDL_Window* gWindow = NULL;
+	SDL_Surface* gScreenSurface = NULL;
+	SDL_Surface* gTank[4];
+	SDL_Rect dTank[4];
+
+public:
+	bool init();
+	bool loadMedia();
+	void update(int d[]);
+	void close();
 };
 #endif

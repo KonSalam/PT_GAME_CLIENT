@@ -12,11 +12,11 @@
 #include "Tank.h"
 #include "Graphic.h"
 
-using namespace std;
 #pragma comment (lib, "Ws2_32.lib")
 #define DEFAULT_BUFLEN 1024            
 #define IP_ADDRESS "127.0.0.1"
 #define DEFAULT_PORT "2556"
+using namespace std;
 const int MAX_CLIENTS = 4;
 
 struct client_type
@@ -25,6 +25,10 @@ struct client_type
 	int id;
 	char received_message[DEFAULT_BUFLEN];
 };
+
+void updateGraphic(Graphic graphic, Tank tanks[4]);
+void setTanks(string msg, Tank tanks[], Graphic graphic);
+int process_client(client_type &new_client, Tank tanks[], Graphic graphic);
 
 class Client
 {

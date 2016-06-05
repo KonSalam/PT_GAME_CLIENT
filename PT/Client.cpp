@@ -1,15 +1,11 @@
 #include "Client.h"
-using namespace std;
-
-int process_client(client_type &new_client,Tank tanks[],Graphic graphic);
-void updateGraphic(Graphic graphic, Tank tanks[4]);
 
 Client::Client()
 {
-	tanks[0] = Tank(0, 0);
-	tanks[1] = Tank(0, 500);
-	tanks[2] = Tank(500, 0);
-	tanks[3] = Tank(500, 500);
+	tanks[0] = Tank(0, 0, 1);
+	tanks[1] = Tank(0, 500, 1);
+	tanks[2] = Tank(500, 0, 2);
+	tanks[3] = Tank(500, 500, 2);
 	sent_message = "";
 	iResult = 0;
 }
@@ -93,8 +89,8 @@ int Client::run()
 	if (message != "Server is full")
 	{
 		client.id = atoi(client.received_message);
-		thread my_thread(process_client,client,tanks,graphic);
-		
+		thread my_thread(process_client, client, tanks, graphic);
+
 		while (1)
 		{
 			int a = _getch();
@@ -107,6 +103,8 @@ int Client::run()
 			else if (a == 75)
 				sent_message = to_string(a);
 			else if (a == 77)
+				sent_message = to_string(a);
+			else if (a == 115)
 				sent_message = to_string(a);
 			else
 				czySend = false;
@@ -140,59 +138,4 @@ int Client::run()
 	}
 	closesocket(client.socket);
 	WSACleanup();
-}
-
-void setTanks(string msg, Tank tanks[],Graphic graphic)
-{
-	std::stringstream stream(msg);	
-	int p, x, y;
-	stream >> p >> x >> y;
-
-	tanks[p].setX(x);
-	tanks[p].setY(y);
-	cout << "Player #"<<p << " | " << tanks[p].getX() << " " << tanks[p].getY() << endl;
-	updateGraphic(graphic, tanks);
-}
-
-void updateGraphic(Graphic graphic, Tank tanks[4])
-{
-	int dTank[8];
-	dTank[0] = tanks[0].getX();
-	dTank[1] = tanks[0].getY();
-
-	dTank[2] = tanks[1].getX();
-	dTank[3] = tanks[1].getY();
-
-	dTank[4] = tanks[2].getX();
-	dTank[5] = tanks[2].getY();
-
-	dTank[6] = tanks[3].getX();
-	dTank[7] = tanks[3].getY();
-	graphic.update(dTank);
-}
-
-int process_client(client_type &new_client,Tank tanks[],Graphic graphic)
-{
-	while (1)
-	{
-		memset(new_client.received_message, 0, DEFAULT_BUFLEN);
-		if (new_client.socket != 0)
-		{
-			int iResult = recv(new_client.socket, new_client.received_message, DEFAULT_BUFLEN, 0);
-			if (iResult != SOCKET_ERROR)
-			{
-				setTanks(new_client.received_message,tanks,graphic);
-				cout << endl;
-			}
-			else
-			{
-				cout << "recv() failed: " << WSAGetLastError() << endl;
-				break;
-			}
-		}
-	}
-
-	if (WSAGetLastError() == WSAECONNRESET)
-		cout << "The server has disconnected" << endl;
-	return 0;
 }

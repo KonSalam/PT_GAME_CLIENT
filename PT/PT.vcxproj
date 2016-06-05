@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientNetwork.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Klient.cpp" />
     <ClCompile Include="Tank.cpp" />

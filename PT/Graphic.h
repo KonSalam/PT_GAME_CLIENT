@@ -18,7 +18,8 @@ private:
 public:
 	bool init();
 	bool loadMedia();
-	void update(int d[]);
 	void close();
+	void updateView(int d[]);
+	void updatePosition(int d[]);
 };
 #endif

@@ -3,8 +3,8 @@
 Client::Client()
 {
 	tanks[0] = Tank(0, 0, 1);
-	tanks[1] = Tank(0, 500, 1);
-	tanks[2] = Tank(500, 0, 2);
+	tanks[1] = Tank(0, 500, 2);
+	tanks[2] = Tank(500, 0, 1);
 	tanks[3] = Tank(500, 500, 2);
 	sent_message = "";
 	iResult = 0;

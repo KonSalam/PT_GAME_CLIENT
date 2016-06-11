@@ -1,29 +1,42 @@
 #include "Graphic.h"
 #include "Client.h"
 
-bool Graphic::init() {
+bool Graphic::init(Tank tanks[]) {
+
+	bool success = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0){
 		cout << "SDL could not initialize! SDL_Error:" << SDL_GetError() << endl;
-		return false;
+		success=false;
 	}
 	else{
 		gWindow = SDL_CreateWindow("Panzer Tournament v.0.1", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 		if (gWindow == NULL) {
 			cout << "Window could not be created! SDL_Error: " << SDL_GetError() << endl;
-			return false;
+			success=false;
 		}
 		else{
 			gScreenSurface = SDL_GetWindowSurface(gWindow);
-			return true;
+			success=true;
 		}
 	}
+	if(success&&loadMedia()) updateWindow(tanks);
+	else close();
+	return success;
 }
 
 void Graphic::close() {
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
 	SDL_Quit();
+}
+
+void Graphic::updateWindow(Tank tanks[]) {
+	while (true) {
+		updatePosition(tanks);
+		SDL_UpdateWindowSurface(gWindow);
+		SDL_PumpEvents();
+	}
 }
 
 bool Graphic::loadMedia() {
@@ -40,65 +53,69 @@ bool Graphic::loadMedia() {
 		SDL_BlitSurface(gTank[i], NULL, gScreenSurface, &dTank[i]);
 	}
 	SDL_UpdateWindowSurface(gWindow);
+	SDL_PumpEvents();
 	return true;
 }
-void Graphic::updateView(int d[]) {
-	// 1-dol 2-gora 3-lewo 4-prawo
-	if (d[2] == 1)
+void Graphic::updateView(Tank tanks[]) {
+	
+	int redCourse = tanks[0].getCourse();
+	int greenCourse = tanks[1].getCourse();
+	int blueCourse = tanks[2].getCourse();
+	int yellowCourse = tanks[3].getCourse();
+
+	if (redCourse == 1)
 		gTank[0] = SDL_LoadBMP("graphic/tank_red_down.bmp");
-	else if (d[2] == 2)
+	else if (redCourse == 2)
 		gTank[0] = SDL_LoadBMP("graphic/tank_red_up.bmp");
-	else if (d[2] == 3)
+	else if (redCourse == 3)
 		gTank[0] = SDL_LoadBMP("graphic/tank_red_left.bmp");
-	else if (d[2] == 4)
+	else if (redCourse == 4)
 		gTank[0] = SDL_LoadBMP("graphic/tank_red_right.bmp");
 
-	if (d[5] == 1)
+	if (greenCourse == 1)
 		gTank[1] = SDL_LoadBMP("graphic/tank_green_down.bmp");
-	else if (d[5] == 2)
+	else if (greenCourse == 2)
 		gTank[1] = SDL_LoadBMP("graphic/tank_green_up.bmp");
-	else if (d[5] == 3)
+	else if (greenCourse == 3)
 		gTank[1] = SDL_LoadBMP("graphic/tank_green_left.bmp");
-	else if (d[5] == 4)
+	else if (greenCourse == 4)
 		gTank[1] = SDL_LoadBMP("graphic/tank_green_right.bmp");
 
-	if (d[8] == 1)
+	if (blueCourse == 1)
 		gTank[2] = SDL_LoadBMP("graphic/tank_blue_down.bmp");
-	else if (d[8] == 2)
+	else if (blueCourse == 2)
 		gTank[2] = SDL_LoadBMP("graphic/tank_bluee_up.bmp");
-	else if (d[8] == 3)
+	else if (blueCourse == 3)
 		gTank[2] = SDL_LoadBMP("graphic/tank_blue_left.bmp");
-	else if (d[8] == 4)
+	else if (blueCourse == 4)
 		gTank[2] = SDL_LoadBMP("graphic/tank_blue_right.bmp");
 
-	if (d[11] == 1)
+	if (yellowCourse == 1)
 		gTank[3] = SDL_LoadBMP("graphic/tank_yellow_down.bmp");
-	else if (d[11] == 2)
+	else if (yellowCourse == 2)
 		gTank[3] = SDL_LoadBMP("graphic/tank_yellow_up.bmp");
-	else if (d[11] == 3)
+	else if (yellowCourse == 3)
 		gTank[3] = SDL_LoadBMP("graphic/tank_yellow_left.bmp");
-	else if (d[11] == 4)
+	else if (yellowCourse == 4)
 		gTank[3] = SDL_LoadBMP("graphic/tank_yellow_right.bmp");
 }
 
-void Graphic::updatePosition(int d[]) {
-	dTank[0].x = d[0];
-	dTank[0].y = d[1];
+void Graphic::updatePosition(Tank tanks[]) {
+	dTank[0].x = tanks[0].getX();
+	dTank[0].y = tanks[0].getY();
 
-	dTank[1].x = d[3];
-	dTank[1].y = d[4];
+	dTank[1].x = tanks[1].getX();
+	dTank[1].y = tanks[1].getY();
 
-	dTank[2].x = d[6];
-	dTank[2].y = d[7];
+	dTank[2].x = tanks[2].getX();
+	dTank[2].y = tanks[2].getY();
 
-	dTank[3].x = d[9];
-	dTank[3].y = d[10];
+	dTank[3].x = tanks[3].getX();
+	dTank[3].y = tanks[3].getY();
 	SDL_FillRect(gScreenSurface, NULL, 0x000000);
-	updateView(d);
+	updateView(tanks);
 
 	for (int i = 0; i < 4; i++) {
-		cout << "UPDATE: " << dTank[i].x << " " << dTank[i].y << endl;
 		SDL_BlitSurface(gTank[i], NULL, gScreenSurface, &dTank[i]);
 	}
-	SDL_UpdateWindowSurface(gWindow);
 }

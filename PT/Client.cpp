@@ -1,4 +1,5 @@
 #include "Client.h"
+#include "Graphic.h"
 
 Client::Client()
 {
@@ -82,14 +83,14 @@ int Client::connecting()
 
 int Client::run()
 {
-	graphic.init();
-	graphic.loadMedia();
 	bool czySend = false;
+
+	thread graphic_thread(&Graphic::init, graphic,tanks);
 
 	if (message != "Server is full")
 	{
 		client.id = atoi(client.received_message);
-		thread my_thread(process_client, client, tanks, graphic);
+		thread my_thread(process_client, client, tanks);
 
 		while (1)
 		{

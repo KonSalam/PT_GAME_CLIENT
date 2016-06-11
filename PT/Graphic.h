@@ -1,6 +1,7 @@
 #ifndef Graphic_H
 #define Graphic_H
 #include <SDL.h>
+#include "Tank.h"
 #undef main
 #include <iostream>
 
@@ -16,10 +17,11 @@ private:
 	SDL_Rect dTank[4];
 
 public:
-	bool init();
+	bool init(Tank tanks[]);
 	bool loadMedia();
 	void close();
-	void updateView(int d[]);
-	void updatePosition(int d[]);
+	void updateWindow(Tank tanks[]);
+	void updateView(Tank tanks[]);
+	void updatePosition(Tank tanks[]);
 };
 #endif

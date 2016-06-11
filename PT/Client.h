@@ -28,7 +28,7 @@ struct client_type
 
 void updateGraphic(Graphic graphic, Tank tanks[4]);
 void setTanks(string msg, Tank tanks[], Graphic graphic);
-int process_client(client_type &new_client, Tank tanks[], Graphic graphic);
+int process_client(client_type &new_client, Tank tanks[]);
 
 class Client
 {

@@ -3,19 +3,25 @@
 void setTanks(string msg, Tank tanks[])
 {
 	std::stringstream stream(msg);
-	int p, x, y, c, s;// id, x, y, course, czyStrzal
-	stream >> p >> x >> y >> c>>s;
+	int p, x, y, c, s;// id, x, y, course, czyStrzal 0-ruch 1-strzal 2-trafiony
+	stream >> p >> x >> y >> c >> s;
 
-	tanks[p].setX(x);
-	tanks[p].setY(y);
-	tanks[p].setCourse(c);
-	if (s == 0){
+	if (s == 0) {
+		tanks[p].setX(x);
+		tanks[p].setY(y);
+		tanks[p].setCourse(c);
 		cout << "Player #" << p << " | " << tanks[p].getX() << " " << tanks[p].getY() << " course: " << tanks[p].getCourse() << endl;
 	}
-	else{
-		cout << "Player Strzela#" << p << " | " << tanks[p].getX() << " " << tanks[p].getY() << " course: " << tanks[p].getCourse() << endl;
-
+	else if (s == 1) {
+		tanks[p].setX(x);
+		tanks[p].setY(y);
+		tanks[p].setCourse(c);
+		cout << "Player Shoot #" << p << " | " << tanks[p].getX() << " " << tanks[p].getY() << " course: " << tanks[p].getCourse() << endl;
 		//Grafika od strzelania 
+	}
+	else if (s == 2) {
+		cout << "Player Trafiony #" << p << " | " << x << " " << y << " course: " << c << endl;
+		tanks[p].setLife();
 	}
 }
 

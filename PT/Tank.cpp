@@ -9,9 +9,8 @@ Tank::Tank(int x1, int y1, int c)
 {
 	x = x1;
 	y = y1;
-	life = 2;
+	life = 3;
 	course = c;
-	whichClient = false;
 }
 
 void Tank::setX(int x2)
@@ -49,11 +48,6 @@ void Tank::setCourse(int c)
 	course = c;
 }
 
-void Tank::setPlay()
-{
-	whichClient = true;
-}
-
 int Tank::getX()
 {
 	return x;
@@ -72,9 +66,4 @@ int Tank::getLife()
 int Tank::getCourse()
 {
 	return course;
-}
-
-bool Tank::getPlay()
-{
-	return whichClient;
 }

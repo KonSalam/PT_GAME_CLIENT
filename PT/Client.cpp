@@ -76,7 +76,6 @@ int Client::connecting()
 
 	//set player play
 	int id = atoi(client.received_message);
-	tanks[id].setPlay();
 	cout << "Player #" << id << " connected\n\n";
 	run();
 }

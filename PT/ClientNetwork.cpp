@@ -3,13 +3,20 @@
 void setTanks(string msg, Tank tanks[])
 {
 	std::stringstream stream(msg);
-	int p, x, y, c;// id, x, y, course
-	stream >> p >> x >> y >> c;
+	int p, x, y, c, s;// id, x, y, course, czyStrzal
+	stream >> p >> x >> y >> c>>s;
 
 	tanks[p].setX(x);
 	tanks[p].setY(y);
 	tanks[p].setCourse(c);
-	cout << "Player #" << p << " | " << tanks[p].getX() << " " << tanks[p].getY() << " course: " << tanks[p].getCourse() << endl;
+	if (s == 0){
+		cout << "Player #" << p << " | " << tanks[p].getX() << " " << tanks[p].getY() << " course: " << tanks[p].getCourse() << endl;
+	}
+	else{
+		cout << "Player Strzela#" << p << " | " << tanks[p].getX() << " " << tanks[p].getY() << " course: " << tanks[p].getCourse() << endl;
+
+		//Grafika od strzelania 
+	}
 }
 
 int process_client(client_type &new_client, Tank tanks[])

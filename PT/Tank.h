@@ -15,6 +15,7 @@ public:
 	void setX(int x2);
 	void setY(int y2);
 	void setLife();
+	void setDead();
 	void setCourse(int c);
 	int getX();
 	int getY();

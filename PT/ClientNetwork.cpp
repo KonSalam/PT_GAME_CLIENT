@@ -22,6 +22,9 @@ void setTanks(string msg, Tank tanks[])
 	else if (s == 2) {
 		cout << "Player Trafiony #" << p << " | " << x << " " << y << " course: " << c << endl;
 		tanks[p].setLife();
+		if (tanks[p].getLife() == 0){
+			tanks[p].setDead();
+		}
 	}
 }
 

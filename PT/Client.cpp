@@ -109,7 +109,7 @@ int Client::run()
 			else
 				czySend = false;
 
-			if (czySend == true)
+			if (czySend == true && tanks[client.id].getLife()!= 0)
 			{
 				iResult = send(client.socket, sent_message.c_str(), strlen(sent_message.c_str()), 0);
 				if (iResult <= 0)

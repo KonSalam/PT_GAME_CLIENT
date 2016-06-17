@@ -39,6 +39,16 @@ void Graphic::updateWindow(Tank tanks[]) {
 	}
 }
 
+void Graphic::showMessage(bool win, string message){
+
+	if (win == true){
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Uwaga Wygrales", message.c_str(), NULL);
+	}
+	else{
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Niestety Przegrales", message.c_str(), NULL);
+	}
+}
+
 bool Graphic::loadMedia() {
 	gTank[0] = SDL_LoadBMP("graphic/tank_red_down.bmp");
 	gTank[1] = SDL_LoadBMP("graphic/tank_green_up.bmp");

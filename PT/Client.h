@@ -14,7 +14,7 @@
 
 #pragma comment (lib, "Ws2_32.lib")
 #define DEFAULT_BUFLEN 1024            
-#define IP_ADDRESS "127.0.0.1"
+#define IP_ADDRESS "192.168.1.105"
 #define DEFAULT_PORT "2556"
 using namespace std;
 const int MAX_CLIENTS = 4;
@@ -27,8 +27,8 @@ struct client_type
 };
 
 void updateGraphic(Graphic graphic, Tank tanks[4]);
-void setTanks(string msg, Tank tanks[], Graphic graphic);
-int process_client(client_type &new_client, Tank tanks[]);
+void setTanks(string msg, Tank tanks[]);
+int process_client(client_type &new_client, Tank tanks[], Graphic graphic);
 
 class Client
 {

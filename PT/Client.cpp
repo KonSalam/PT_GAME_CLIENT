@@ -83,13 +83,12 @@ int Client::connecting()
 int Client::run()
 {
 	bool czySend = false;
-
-	thread graphic_thread(&Graphic::init, graphic,tanks);
-
+	thread graphic_thread(&Graphic::init, graphic, tanks);
+	
 	if (message != "Server is full")
 	{
 		client.id = atoi(client.received_message);
-		thread my_thread(process_client, client, tanks);
+		thread my_thread(process_client, client, tanks, graphic);
 
 		while (1)
 		{
@@ -109,7 +108,7 @@ int Client::run()
 			else
 				czySend = false;
 
-			if (czySend == true && tanks[client.id].getLife()!= 0)
+			if (czySend == true && tanks[client.id].getLife() != 0)
 			{
 				iResult = send(client.socket, sent_message.c_str(), strlen(sent_message.c_str()), 0);
 				if (iResult <= 0)

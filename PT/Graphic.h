@@ -23,5 +23,6 @@ public:
 	void updateWindow(Tank tanks[]);
 	void updateView(Tank tanks[]);
 	void updatePosition(Tank tanks[]);
+	void Graphic::showMessage(bool win, string message);
 };
 #endif

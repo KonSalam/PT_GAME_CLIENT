@@ -82,32 +82,40 @@ int Client::connecting()
 
 int Client::run()
 {
-	bool czySend = false;
+	bool czySend = true;
 	
 	if (message != "Server is full")
 	{
 		thread graphic_thread(&Graphic::init, graphic, tanks);
 		client.id = atoi(client.received_message);
 		thread my_thread(process_client, client, tanks, graphic);
-
+		
 		while (1)
 		{
-			int a = _getch();
-			if (a == 0 || a == 0xE0) a = _getch();
-
-			if (a == 72)
-				sent_message = to_string(a);
-			else if (a == 80)
-				sent_message = to_string(a);
-			else if (a == 75)
-				sent_message = to_string(a);
-			else if (a == 77)
-				sent_message = to_string(a);
-			else if (a == 115)
-				sent_message = to_string(a);
-			else
+			int a = 0;
+			while (SDL_PollEvent(&graphic.e))
+			{
+				if (graphic.e.type == SDL_QUIT) exit(0);
+				if (graphic.e.type == SDL_KEYDOWN) {
+					a = graphic.e.key.keysym.scancode;
+					cout << a << endl;
+				}
+			}
+			switch (a) {
+			case 82:	sent_message = to_string(a);
+				break;
+			case 80:	sent_message = to_string(a);
+				break;
+			case 81:	sent_message = to_string(a);
+				break;
+			case 79:	sent_message = to_string(a);
+				break;
+			case 22:	sent_message = to_string(a);
+				break;
+			default:
 				czySend = false;
-
+			}
+		
 			if (czySend == true && tanks[client.id].getLife() != 0)
 			{
 				iResult = send(client.socket, sent_message.c_str(), strlen(sent_message.c_str()), 0);

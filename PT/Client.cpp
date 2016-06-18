@@ -83,10 +83,10 @@ int Client::connecting()
 int Client::run()
 {
 	bool czySend = false;
-	thread graphic_thread(&Graphic::init, graphic, tanks);
 	
 	if (message != "Server is full")
 	{
+		thread graphic_thread(&Graphic::init, graphic, tanks);
 		client.id = atoi(client.received_message);
 		thread my_thread(process_client, client, tanks, graphic);
 

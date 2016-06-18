@@ -27,7 +27,7 @@ void setTanks(string msg, Tank tanks[])
 		}
 	}
 	else if (s == 3) {
-		cout << "Player Rozlaczony #" << p << " | " << x << " " << y << " course: " << c << endl;
+		cout << "Player Zastrzelony/Rozlaczony #" << p << " | " << x << " " << y << " course: " << c << endl;
 		tanks[p].setDead();
 	}
 }
@@ -44,9 +44,23 @@ int process_client(client_type &new_client, Tank tanks[], Graphic graphic)
 			{
 				setTanks(new_client.received_message, tanks);
 				cout << endl;
-				if (tanks[new_client.id].getLife()==0)
+				if (tanks[new_client.id].getLife() == 0)
 				{
 					graphic.showMessage(false, "Niestety zostales 3 razy trafiony i przegrales");
+				}
+
+				if (tanks[new_client.id].getLife() != 0){
+					bool win = true;
+					for (int i = 0; i < 4; i++){
+						if (i == new_client.id) continue;
+						if (tanks[i].getLife() != 0){
+							win = false;
+							break;
+						}
+					}
+					if (win == true){
+						graphic.showMessage(true, "Wygrales caly turniej!! Gratulacje Graczu!");
+					}
 				}
 			}
 			else

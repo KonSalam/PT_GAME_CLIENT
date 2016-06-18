@@ -18,7 +18,7 @@ private:
 
 public:
 	bool init(Tank tanks[]);
-	bool loadMedia();
+	bool loadMedia(Tank tanks[]);
 	void close();
 	void updateWindow(Tank tanks[]);
 	void updateView(Tank tanks[]);

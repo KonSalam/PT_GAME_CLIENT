@@ -20,7 +20,7 @@ bool Graphic::init(Tank tanks[]) {
 			success=true;
 		}
 	}
-	if(success&&loadMedia()) updateWindow(tanks);
+	if(success&&loadMedia(tanks)) updateWindow(tanks);
 	else close();
 	return success;
 }
@@ -49,15 +49,15 @@ void Graphic::showMessage(bool win, string message){
 	}
 }
 
-bool Graphic::loadMedia() {
+bool Graphic::loadMedia(Tank tanks[]) {
 	gTank[0] = SDL_LoadBMP("graphic/tank_red_down.bmp");
 	gTank[1] = SDL_LoadBMP("graphic/tank_green_up.bmp");
 	gTank[2] = SDL_LoadBMP("graphic/tank_blue_down.bmp");
 	gTank[3] = SDL_LoadBMP("graphic/tank_yellow_up.bmp");
-	dTank[0] = { 0, 0, 0, 0 };
-	dTank[1] = { 0, 500, 0, 0 };
-	dTank[2] = { 500, 0, 0, 0 };
-	dTank[3] = { 500, 500, 0, 0 };
+	dTank[0] = { tanks[0].getX(), tanks[0].getY(), 0, 0 };
+	dTank[1] = { tanks[1].getX(), tanks[1].getY(), 0, 0 };
+	dTank[2] = { tanks[2].getX(), tanks[2].getY(), 0, 0 };
+	dTank[3] = { tanks[3].getX(), tanks[3].getY(), 0, 0 };
 
 	for (int i = 0; i < 4; i++) {
 		SDL_BlitSurface(gTank[i], NULL, gScreenSurface, &dTank[i]);

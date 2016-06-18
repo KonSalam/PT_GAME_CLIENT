@@ -32,11 +32,18 @@ void Graphic::close() {
 }
 
 void Graphic::updateWindow(Tank tanks[]) {
-	while (true) {
+	bool quit = false;
+	while (!quit) {
+		while (SDL_PollEvent(&e)) 
+		{
+			if (e.type == SDL_QUIT) quit = true;
+
+		}
 		updatePosition(tanks);
 		SDL_UpdateWindowSurface(gWindow);
 		SDL_PumpEvents();
 	}
+	exit(0);
 }
 
 void Graphic::showMessage(bool win, string message){

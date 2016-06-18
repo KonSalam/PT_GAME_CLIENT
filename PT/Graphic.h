@@ -17,6 +17,7 @@ private:
 	SDL_Rect dTank[4];
 
 public:
+	SDL_Event e;
 	bool init(Tank tanks[]);
 	bool loadMedia(Tank tanks[]);
 	void close();

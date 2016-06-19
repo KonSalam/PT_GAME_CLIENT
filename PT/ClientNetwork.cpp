@@ -1,6 +1,6 @@
 #include "Client.h"
 
-void setTanks(string msg, Tank tanks[])
+void setTanks(string msg, Tank tanks[],Graphic graphic)
 {
 	std::stringstream stream(msg);
 	int p, x, y, c, s;// id, x, y, course, czyStrzal 0-ruch 1-strzal 2-trafiony
@@ -17,7 +17,7 @@ void setTanks(string msg, Tank tanks[])
 		tanks[p].setY(y);
 		tanks[p].setCourse(c);
 		cout << "Player Shoot #" << p << " | " << tanks[p].getX() << " " << tanks[p].getY() << " course: " << tanks[p].getCourse() << endl;
-		//Grafika od strzelania 
+		tanks[p].setShooting(true);
 	}
 	else if (s == 2) {
 		cout << "Player Trafiony #" << p << " | " << x << " " << y << " course: " << c << endl;
@@ -42,7 +42,7 @@ int process_client(client_type &new_client, Tank tanks[], Graphic graphic)
 			int iResult = recv(new_client.socket, new_client.received_message, DEFAULT_BUFLEN, 0);
 			if (iResult != SOCKET_ERROR)
 			{
-				setTanks(new_client.received_message, tanks);
+				setTanks(new_client.received_message, tanks,graphic);
 				cout << endl;
 				if (tanks[new_client.id].getLife() == 0)
 				{

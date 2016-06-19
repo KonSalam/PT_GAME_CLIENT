@@ -54,6 +54,10 @@ void Tank::setCourse(int c)
 	course = c;
 }
 
+void Tank::setShooting(bool is) {
+	isShooting = is;
+}
+
 int Tank::getX()
 {
 	return x;
@@ -72,4 +76,8 @@ int Tank::getLife()
 int Tank::getCourse()
 {
 	return course;
+}
+
+bool Tank::getShooting() {
+	return isShooting;
 }

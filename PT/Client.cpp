@@ -98,7 +98,6 @@ int Client::run()
 				if (graphic.e.type == SDL_QUIT) exit(0);
 				if (graphic.e.type == SDL_KEYDOWN) {
 					a = graphic.e.key.keysym.scancode;
-					cout << a << endl;
 				}
 			}
 			switch (a) {

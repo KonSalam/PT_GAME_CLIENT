@@ -39,6 +39,7 @@ void Graphic::updateWindow(Tank tanks[]) {
 			if (e.type == SDL_QUIT) quit = true;
 
 		}
+		shootView(tanks);
 		updatePosition(tanks);
 		SDL_UpdateWindowSurface(gWindow);
 		SDL_PumpEvents();
@@ -101,7 +102,7 @@ void Graphic::updateView(Tank tanks[]) {
 	if (blueCourse == 1)
 		gTank[2] = SDL_LoadBMP("graphic/tank_blue_down.bmp");
 	else if (blueCourse == 2)
-		gTank[2] = SDL_LoadBMP("graphic/tank_bluee_up.bmp");
+		gTank[2] = SDL_LoadBMP("graphic/tank_blue_up.bmp");
 	else if (blueCourse == 3)
 		gTank[2] = SDL_LoadBMP("graphic/tank_blue_left.bmp");
 	else if (blueCourse == 4)
@@ -134,5 +135,56 @@ void Graphic::updatePosition(Tank tanks[]) {
 
 	for (int i = 0; i < 4; i++) {
 		SDL_BlitSurface(gTank[i], NULL, gScreenSurface, &dTank[i]);
+	}
+}
+
+void Graphic::shootView(Tank tanks[]) {
+	SDL_Rect rectTanks[4];
+
+	for (int i = 0; i < 4; i++) {
+		if (tanks[i].getShooting() == true) {
+			
+			int x = 0;
+			int y = 0;
+
+			rectTanks[i].w = 5;
+			rectTanks[i].h = 5;
+
+			switch (tanks[i].getCourse()) {
+			case 1:
+				rectTanks[i].x = tanks[i].getX() + 23;
+				rectTanks[i].y = tanks[i].getY() + 45;
+				x = 0;
+				y = 5;
+				break;
+			case 2:
+				rectTanks[i].x = tanks[i].getX()+23;
+				rectTanks[i].y = tanks[i].getY();
+				x = 0;
+				y = -5;
+				break;
+			case 3:
+				rectTanks[i].x = tanks[i].getX();
+				rectTanks[i].y = tanks[i].getY()+23;
+				x = -5;
+				y = 0;
+				break;
+			case 4:
+				rectTanks[i].x = tanks[i].getX()+50;
+				rectTanks[i].y = tanks[i].getY()+23;
+				x = 5;
+				y = 0;
+				break;
+			}
+
+			for (int j = 0; j < 500; j += 5) {
+				rectTanks[i].x = rectTanks[i].x + x;
+				rectTanks[i].y = rectTanks[i].y + y;
+				SDL_FillRect(gScreenSurface, &rectTanks[i], SDL_MapRGB(gScreenSurface->format, 255, 255, 0));
+				SDL_UpdateWindowSurface(gWindow);
+				SDL_PumpEvents();
+			}
+			tanks[i].setShooting(false);
+		}
 	}
 }

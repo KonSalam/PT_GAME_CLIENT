@@ -8,6 +8,7 @@ private:
 	int y;
 	int course;// 1- dol 2-gora 3- lewo 4- prawo
 	int life;
+	bool isShooting = false;
 
 public:
 	Tank();
@@ -17,9 +18,11 @@ public:
 	void setLife();
 	void setDead();
 	void setCourse(int c);
+	void setShooting(bool is);
 	int getX();
 	int getY();
 	int getLife();
 	int getCourse();
+	bool getShooting();
 };
 #endif

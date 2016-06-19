@@ -34,6 +34,7 @@ void setTanks(string msg, Tank tanks[],Graphic graphic)
 
 int process_client(client_type &new_client, Tank tanks[], Graphic graphic)
 {
+	bool lose = false;
 	while (1)
 	{
 		memset(new_client.received_message, 0, DEFAULT_BUFLEN);
@@ -44,9 +45,10 @@ int process_client(client_type &new_client, Tank tanks[], Graphic graphic)
 			{
 				setTanks(new_client.received_message, tanks,graphic);
 				cout << endl;
-				if (tanks[new_client.id].getLife() == 0)
+				if (tanks[new_client.id].getLife() == 0 && lose == false)
 				{
 					graphic.showMessage(false, "Niestety zostales 3 razy trafiony i przegrales");
+					lose = true;
 				}
 
 				if (tanks[new_client.id].getLife() != 0){

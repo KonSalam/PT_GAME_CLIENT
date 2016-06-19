@@ -34,13 +34,8 @@ void Graphic::close() {
 void Graphic::updateWindow(Tank tanks[]) {
 	bool quit = false;
 	while (!quit) {
-		while (SDL_PollEvent(&e)) 
-		{
-			if (e.type == SDL_QUIT) quit = true;
-
-		}
-		shootView(tanks);
 		updatePosition(tanks);
+		shootView(tanks);
 		SDL_UpdateWindowSurface(gWindow);
 		SDL_PumpEvents();
 	}
@@ -178,11 +173,11 @@ void Graphic::shootView(Tank tanks[]) {
 			}
 
 			for (int j = 0; j < 500; j += 5) {
+				Sleep(2);
 				rectTanks[i].x = rectTanks[i].x + x;
 				rectTanks[i].y = rectTanks[i].y + y;
 				SDL_FillRect(gScreenSurface, &rectTanks[i], SDL_MapRGB(gScreenSurface->format, 255, 255, 0));
 				SDL_UpdateWindowSurface(gWindow);
-				SDL_PumpEvents();
 			}
 			tanks[i].setShooting(false);
 		}

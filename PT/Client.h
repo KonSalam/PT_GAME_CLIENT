@@ -14,7 +14,7 @@
 
 #pragma comment (lib, "Ws2_32.lib")
 #define DEFAULT_BUFLEN 1024            
-#define IP_ADDRESS "localhost"
+#define IP_ADDRESS "192.168.1.105"
 #define DEFAULT_PORT "2556"
 using namespace std;
 const int MAX_CLIENTS = 4;
